@@ -1,0 +1,10 @@
+export const TILE_SIZE = 32
+export const COLS = 15
+export const ROWS = 15
+export const GAME_WIDTH = COLS * TILE_SIZE
+export const GAME_HEIGHT = ROWS * TILE_SIZE
+export const LEFT = "LEFT"
+export const RIGHT = "RIGHT"
+export const UP = "UP"
+export const DOWN = "DOWN"
+export const NOTICE_DURATION = 3000
