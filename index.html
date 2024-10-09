@@ -4,25 +4,41 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Lalalala</title>
   </head>
   <body class="bg-slate-950 text-white p-9">
+    <p
+      id="status-bar"
+      class="fixed inset-0 bottom-auto h-12 bg-green-300 text-black transition-transform -translate-y-full p-4 grid place-items-center text-lg leading-5"
+    ></p>
+
     <div
       class="space-y-3 text-center p-4 mx-auto my-12 max-w-xl bg-gray-50 text-black rounded-lg shadow-lg"
     >
-      <h1 class="text-xl font-extrabold">Creative Coding</h1>
+      <h1 class="text-3xl font-extrabold">Creative Coding</h1>
       <div class="space-y-3">
         <h2 class="text-lg">Lets try out the Gamepad API</h2>
         <p>First we'll need to connect a controller.</p>
       </div>
       <div class="">
         <button
-          id="counter"
+          id="test-btn"
           type="button"
           class="transition-colors border-2 border-purple-400 px-2 py-1 rounded-full bg-gray-950 text-white hover:bg-purple-400 hover:border-gray-950"
         >
           dummy buton
         </button>
+      </div>
+    </div>
+
+    <div
+      id="expandable-container"
+      class="space-y-3 mx-auto my-12 max-w-xl bg-gray-50 text-black rounded-lg shadow-lg grid grid-rows-[0fr] transition-[grid-template-rows]"
+    >
+      <div class="overflow-hidden min-h-0">
+        <div class="p-4">
+          <p class="text-black"></p>
+        </div>
       </div>
     </div>
     <script type="module" src="/main.js"></script>
