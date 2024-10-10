@@ -1,6 +1,7 @@
 import "./style.scss"
-import { World } from "./world"
 import { GAME_WIDTH, GAME_HEIGHT } from "./constants"
+import { displayNotification } from "./utils"
+import { World } from "./world"
 import { Hero } from "./hero"
 import { Input } from "./input"
 
@@ -41,15 +42,19 @@ requestAnimationFrame(animate)
 const game = new Game()
 
 // event listeners
-// window.addEventListener("gamepadconnected", (e) =>
-//   gamepadHandler({
-//     event: e,
-//     action: "connected",
-//   })
-// )
-// window.addEventListener("gamepaddisconnected", (e) =>
-//   gamepadHandler({
-//     event: e,
-//     action: "disconnected",
-//   })
-// )
+window.addEventListener("gamepadconnected", (e) => {
+  console.log(e)
+  displayNotification({
+    HTML: gamePadNotification({ gamepad: e.gamepad, action: "connected" }),
+  })
+})
+window.addEventListener("gamepaddisconnected", (e) => {
+  displayNotification({
+    HTML: gamePadNotification({ gamepad: e.gamepad, action: "disconnected" }),
+  })
+})
+
+const gamePadNotification = ({ gamepad, action }) =>
+  `<h2 class="text-2xl mb-3">Gamepad ${action}</h2>
+  <p class="mb-3"><strong>gamepad id:</strong> ${gamepad.id}</p>
+  `

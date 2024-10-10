@@ -87,7 +87,6 @@ export class Input {
 
       if (button.value === 1) {
         this.keyPressed(action)
-        currentFrameActions.add(action)
       }
     })
   }
