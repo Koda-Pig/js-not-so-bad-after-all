@@ -3,6 +3,12 @@ import { UP, DOWN, LEFT, RIGHT } from "./constants"
 export class Input {
   constructor() {
     this.keys = []
+    this.keyMap = {
+      ArrowUp: UP,
+      ArrowDown: DOWN,
+      ArrowLeft: LEFT,
+      ArrowRight: RIGHT,
+    }
     this.gamepadKeyMap = {
       0: "A",
       1: "B",
@@ -21,36 +27,29 @@ export class Input {
       14: LEFT,
       15: RIGHT,
     }
-
     this.validActions = [UP, DOWN, LEFT, RIGHT]
 
     window.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowUp") this.keyPressed(UP)
-      if (e.key === "ArrowDown") this.keyPressed(DOWN)
-      if (e.key === "ArrowLeft") this.keyPressed(LEFT)
-      if (e.key === "ArrowRight") this.keyPressed(RIGHT)
+      const action = this.keyMap[e.key]
+      if (!action) return
+      this.keyPressed(action)
     })
+
     window.addEventListener("keyup", (e) => {
-      this.keyReleased(e)
+      const action = this.keyMap[e.key]
+      if (!action) return
+      this.keyReleased(action)
     })
-
-    // window.addEventListener("gamepadconnected", (e) =>
-    //   this.gamepadHandler({ event: e, action: "connected" })
-    // )
-    // window.addEventListener("gamepaddisconnected", (e) =>
-    //   this.gamepadHandler({ event: e, action: "disconnected" })
-    // )
   }
 
-  keyPressed(key) {
-    if (this.keys.includes(key)) return
+  keyPressed(action) {
+    if (this.keys.includes(action)) return
     // unshift instead of push to add to the front of the array
-    this.keys.unshift(key)
+    this.keys.unshift(action)
   }
 
-  keyReleased(key) {
-    const index = this.keys.indexOf(key)
-    this.keys.splice(index, 1)
+  keyReleased(action) {
+    this.keys = this.keys.filter((key) => key !== action)
   }
 
   gamepadHandler({ event, action }) {
@@ -87,6 +86,10 @@ export class Input {
 
       if (button.value === 1) {
         this.keyPressed(action)
+      }
+
+      if (button.value === 0) {
+        this.keyReleased(action)
       }
     })
   }
