@@ -16,19 +16,15 @@
       <div
         class="space-y-3 text-center p-4 mx-automax-w-xl bg-gray-50 text-black rounded-lg shadow-lg"
       >
-        <h1 class="text-3xl font-extrabold">Gamepad API</h1>
+        <h1 class="text-3xl font-extrabold">Web Audio API</h1>
         <div class="space-y-3">
           <p class="text-lg">
-            Lets try out the Gamepad API. First we'll need to connect a controller.
+            Lets try out the Web Audio API. For this example we just need a microphone.
           </p>
         </div>
       </div>
 
-      <div class="hidden" aria-hidden="true">
-        <img src="backgroundLevel1.png" alt="" id="backgroundLayer1" />
-      </div>
-
-      <canvas id="game-canvas" class="mx-auto my-4 bg-white border-none"></canvas>
+      <canvas id="audio-canvas" class="mx-auto my-4 bg-black border-2 rounded-md"></canvas>
     </div>
 
     <nav class="bg-gray-400 shadow-white">
@@ -39,6 +35,6 @@
     </nav>
 
     <script type="module" src="./src/main.js"></script>
-    <script type="module" src="./src/gameApi.js"></script>
+    <script type="module" src="./src/audioApi.js"></script>
   </body>
 </html>
