@@ -84,13 +84,9 @@ export class Input {
       const action = this.gamepadKeyMap[index]
       if (!this.validActions.includes(action)) return
 
-      if (button.value === 1) {
-        this.keyPressed(action)
-      }
+      if (button.value === 1) this.keyPressed(action)
 
-      if (button.value === 0) {
-        this.keyReleased(action)
-      }
+      if (button.value === 0) this.keyReleased(action)
     })
   }
 
