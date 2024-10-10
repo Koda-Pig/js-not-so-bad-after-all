@@ -42,7 +42,6 @@ const game = new Game()
 
 // event listeners
 window.addEventListener("gamepadconnected", (e) => {
-  console.log(e)
   displayNotification({
     HTML: gamePadNotification({ gamepad: e.gamepad, action: "connected" }),
   })

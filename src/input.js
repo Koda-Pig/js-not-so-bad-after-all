@@ -52,20 +52,11 @@ export class Input {
     this.keys = this.keys.filter((key) => key !== action)
   }
 
-  gamepadHandler({ event, action }) {
-    const gamepad = navigator.getGamepads()[event.gamepad.index]
-
-    if (action === "disconnected") {
-      console.log("gamepad disconnected", gamepad)
-      delete this.gamepads[gamepad.index]
-      return
-    }
-
-    // Connected:
-    console.info("gamepad connected", gamepad)
-    this.gamepads[gamepad.index] = gamepad
-  }
-
+  // Theres a small issue with this method:
+  // when the gamepad is connected and the method is being called,
+  // the keyboard inputs don't work because the method constantly
+  // removes whatever key is being pressed.
+  // Not worth solving for this example, but worth noting.
   pollGamepadInput() {
     // according to the spec, it's recommended to poll the gamepad on each animation frame
     const gamepads = navigator.getGamepads()
@@ -77,21 +68,21 @@ export class Input {
 
     if (!gamepad) return
 
-    // This needs to be improved, as currently you can only have one
-    // button pressed at a time.
     gamepad.buttons.forEach((button, index) => {
-      // if value is 1, the button is pressed
       const action = this.gamepadKeyMap[index]
       if (!this.validActions.includes(action)) return
 
+      // if value is 1, the button is pressed
       if (button.value === 1) this.keyPressed(action)
-
+      // if value is 0, the button is released
       if (button.value === 0) this.keyReleased(action)
     })
   }
 
   // Get binds an objects property to a function that will be called
   // when that property is looked up.
+  // eg: game.input.lastKey will return the last key pressed
+  // if it was a regular method, it would be game.input.lastKey()
   get lastKey() {
     return this.keys[0]
   }
