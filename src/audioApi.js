@@ -87,19 +87,18 @@ class Microphone {
 
   // calculate average of all audio samples and returns as single number
   get volume() {
-    this.analyser.getByteTimeDomainData(this.dataArray)
-    let normSamples = [...this.dataArray].map((e) => e / 128 - 1)
+    let normSamples = this.samples
     let sum = 0
     for (const sample of normSamples) {
-      sum += sample * sample // convert to positive number
+      sum += Math.abs(sample) // convert to positive
     }
-    let volume = Math.sqrt(sum / normSamples.length)
+    let volume = sum / normSamples.length
     return volume
   }
 }
 
 let fftSize = 512
-// const microphone = new Microphone({ fftSize: fftSize })
+const microphone = new Microphone({ fftSize: fftSize })
 let bars = []
 let barWidth = canvas.width / (fftSize / 2)
 
@@ -133,4 +132,4 @@ function animate() {
   requestAnimationFrame(animate)
 }
 
-// animate()
+animate()
