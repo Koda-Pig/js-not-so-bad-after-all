@@ -1,4 +1,3 @@
-import "./style.scss"
 import { GAME_WIDTH, GAME_HEIGHT } from "./constants"
 import { displayNotification } from "./utils"
 import { World } from "./world"
