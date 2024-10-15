@@ -76,10 +76,8 @@ export class Input {
       const action = this.gamepadKeyMap[index]
       if (!this.validActions.includes(action)) return
 
-      // if value is 1, the button is pressed
-      if (button.value === 1) this.keyPressed(action, "gamepad")
-      // if value is 0, the button is released
-      if (button.value === 0) this.keyReleased(action, "gamepad")
+      if (button.pressed) this.keyPressed(action, "gamepad")
+      else this.keyReleased(action, "gamepad")
     })
   }
 
