@@ -2,8 +2,9 @@ import { UP, DOWN, LEFT, RIGHT } from "./constants"
 
 export class Input {
   constructor() {
-    this.keys = []
-    this.keyMap = {
+    this.keyboardKeys = []
+    this.gamepadKeys = []
+    this.keyboardKeyMap = {
       ArrowUp: UP,
       ArrowDown: DOWN,
       ArrowLeft: LEFT,
@@ -30,33 +31,36 @@ export class Input {
     this.validActions = [UP, DOWN, LEFT, RIGHT]
 
     window.addEventListener("keydown", (e) => {
-      const action = this.keyMap[e.key]
+      const action = this.keyboardKeyMap[e.key]
       if (!action) return
-      this.keyPressed(action)
+      this.keyPressed(action, "keyboard")
     })
 
     window.addEventListener("keyup", (e) => {
-      const action = this.keyMap[e.key]
+      const action = this.keyboardKeyMap[e.key]
       if (!action) return
-      this.keyReleased(action)
+      this.keyReleased(action, "keyboard")
     })
   }
 
-  keyPressed(action) {
-    if (this.keys.includes(action)) return
+  keyPressed(action, inputType) {
+    let keysArray = inputType === "keyboard" ? this.keyboardKeys : this.gamepadKeys
+    if (keysArray.includes(action)) return
     // unshift instead of push to add to the front of the array
-    this.keys.unshift(action)
+    keysArray.unshift(action)
   }
 
-  keyReleased(action) {
-    this.keys = this.keys.filter((key) => key !== action)
+  keyReleased(action, inputType) {
+    let keysArray = inputType === "keyboard" ? this.keyboardKeys : this.gamepadKeys
+    keysArray = keysArray.filter((key) => key !== action)
+
+    if (inputType === "keyboard") {
+      this.keyboardKeys = keysArray
+    } else {
+      this.gamepadKeys = keysArray
+    }
   }
 
-  // Theres a small issue with this method:
-  // when the gamepad is connected and the method is being called,
-  // the keyboard inputs don't work because the method constantly
-  // removes whatever key is being pressed.
-  // Not worth solving for this example, but worth noting.
   pollGamepadInput() {
     // according to the spec, it's recommended to poll the gamepad on each animation frame
     const gamepads = navigator.getGamepads()
@@ -73,10 +77,14 @@ export class Input {
       if (!this.validActions.includes(action)) return
 
       // if value is 1, the button is pressed
-      if (button.value === 1) this.keyPressed(action)
+      if (button.value === 1) this.keyPressed(action, "gamepad")
       // if value is 0, the button is released
-      if (button.value === 0) this.keyReleased(action)
+      if (button.value === 0) this.keyReleased(action, "gamepad")
     })
+  }
+
+  get activeKeys() {
+    return [...new Set([...this.keyboardKeys, ...this.gamepadKeys])]
   }
 
   // Get binds an objects property to a function that will be called
@@ -84,6 +92,6 @@ export class Input {
   // eg: game.input.lastKey will return the last key pressed
   // if it was a regular method, it would be game.input.lastKey()
   get lastKey() {
-    return this.keys[0]
+    return this.activeKeys[0]
   }
 }
